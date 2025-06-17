@@ -1,0 +1,27 @@
+diamond_chicken:
+  name: "<level>级钻石鸡" #在游戏中，本品种的鸡的头上显示的悬浮字，其中<level>是占位符
+  production: diamond #生产物品的id
+  product_cooldown: "60-exp(<level>)" # 生产冷却时间对等级的函数
+  feed: diamond #喂食物品的id
+  drop: diamond_block #击杀后掉落物id
+  drop_amount: "1+pow(2,<level>)" #击杀后掉落物数量对等级的函数
+  mutations_prob: "0.1*<level>" #变异后代产生概率对等级的函数
+  common_offspring_level: "<x>+<y>" #没变异后代的等级计算函数,<x>为父亲等级,<y>为母亲等级
+golden_chicken:
+  name: "<level>级黄金鸡"
+  production: golden
+  product_cooldown: "60" #常数，不随等级改变
+  feed: golden
+  drop: golden_block
+  drop_amount: "1+pow(2,<level>)"
+  mutations_prob: "0.1*<level>"
+  common_offspring_level: "<x>+<y>"
+emerald_chicken:
+  name: "<level>级绿宝石鸡"
+  production: emerald
+  product_cooldown: "60" #常数，不随等级改变
+  feed: emerald
+  drop: emerald_block
+  drop_amount: "1+pow(2,<level>)"
+  mutations_prob: "0.1*<level>"
+  common_offspring_level: "<x>+<y>"

@@ -30,7 +30,6 @@ taboolib {
     env {
         install(Basic)
         install(Bukkit)
-        install(BungeeCord)
         install(BukkitHook)
         install(BukkitUI)
         install(BukkitUtil)

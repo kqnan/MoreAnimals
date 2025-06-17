@@ -1,0 +1,4 @@
+#钻石鸡和黄金鸡的变异后代为绿宝石鸡
+diamond_chicken_golden_chicken: emerald_chicken
+#钻石鸡和绿宝石鸡的变异后代为铁鸡
+emerald_chicken_diamond_chicken: iron_chicken
