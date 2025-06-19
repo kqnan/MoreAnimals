@@ -1,0 +1,17 @@
+### 前情提要
+nms包内的类用java.net.URLClassLoader加载的，服务端插件用org.bukkit.plugin.java.PluginClassLoader加载的。因为org.bukkit.plugin.java.PluginClassLoader是java.net.URLClassLoader的父类，所以nms包内的类是无法访问插件中的类的。因此，如果插件在运行时修改nms包中某个类的A方法，使该方法调用了插件中的B方法，那么A方法便无法正常使用。例如：
+在net.minecraft.world.entity.animal.EntityAnimal中，存在这样一个方法
+> public boolean isFood(ItemStack var0) {
+        return var0.is(Items.WHEAT);
+    }
+
+
+在运行时我修改了这个方法：
+>public boolean isFood(ItemStack var0) {
+        return MyPlugin.isFood(Items.WHEAT);//修改后
+    }
+
+修改后的方法无法正常使用，因为修改后服务端调用方法时会用java.net.URLClassLoader加载MyPlugin类，但是该类已经被org.bukkit.plugin.java.PluginClassLoader加载了，所以会报错。
+
+### 我的想法是
+能否在服务端把插件加载后，使用java.net.URLClassLoader重新加载插件中的类，使其能够被nms包中的类调用。目前，针对前文的例子，我使用ByteBuddy在运行时重新加载了MyPlugin类，这样EntityAnimal#isFood方法就正常了。

@@ -59,6 +59,10 @@ taboolib {
 
 repositories {
     mavenCentral()
+    maven {
+        name = "CodeMC"
+        url = uri("https://repo.codemc.io/repository/maven-public/")
+    }
 }
 
 dependencies {
@@ -66,12 +70,30 @@ dependencies {
     compileOnly("ink.ptms.core:v12004:12004:universal")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
+    // https://mvnrepository.com/artifact/org.ow2.asm/asm
+    //implementation("org.ow2.asm:asm:9.8")
+    // https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy
+    implementation("net.bytebuddy:byte-buddy:1.17.5")
+    // https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-agent
+    implementation("net.bytebuddy:byte-buddy-agent:1.17.5")
+    compileOnly("de.tr7zw:item-nbt-api-plugin:2.15.0")
 }
 
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
+// 定义一个 copyJar 任务，类型为 Copy
+val copyJar by tasks.registering(Copy::class) {
+    dependsOn(tasks.build) // 确保在 build 任务后执行
+    from("build/libs/MoreAnimals-1.0-SNAPSHOT.jar") // 获取构建的 JAR 文件
+    into("H:\\Shycraft\\sc\\plugins") // 目标文件夹路径
+}
+//tasks.get("copyJar").finalizedBy("runBatchFile")
+tasks.build.configure {
 
+    this.finalizedBy(copyJar)
+
+}
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         jvmTarget = "1.8"

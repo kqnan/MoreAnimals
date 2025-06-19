@@ -1,28 +1,41 @@
 package szuc.kqn.moreanimals.nms
 
+import net.bytebuddy.ByteBuddy
+import net.bytebuddy.agent.ByteBuddyAgent
+import net.bytebuddy.asm.Advice
+import net.bytebuddy.dynamic.loading.ClassReloadingStrategy
+import net.bytebuddy.implementation.MethodDelegation
+import net.bytebuddy.matcher.ElementMatchers.named
 import net.minecraft.world.entity.EntityInsentient
-import net.minecraft.world.entity.ai.control.ControllerJump
 import net.minecraft.world.entity.ai.goal.PathfinderGoal
-import net.minecraft.world.entity.ai.goal.PathfinderGoalSelector
-import net.minecraft.world.entity.ai.navigation.NavigationAbstract
-import net.minecraft.world.level.pathfinder.PathEntity
+import net.minecraft.world.entity.animal.EntityAnimal
+import net.minecraft.world.entity.animal.EntitySheep
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Sheep
+import taboolib.common.platform.function.info
 import taboolib.library.reflex.Reflex.Companion.getProperty
-import taboolib.module.ai.PathfinderCreator
-import taboolib.module.ai.PathfinderExecutor
-import taboolib.module.ai.SimpleAi
-import taboolib.module.nms.MinecraftVersion
 import taboolib.module.nms.nmsProxy
-import java.lang.reflect.Field
 import java.util.function.Function
+
 class SheepAIInjectorImpl :SheepAIInjector{
+
     override fun eatBlock(sheep: Sheep, canUse:Function<Location,Boolean>, setBlock: Function<Location, Unit>){
         removeGoalAi(sheep,"PathfinderGoalEatTile")
         addGoalAi(sheep, nmsProxy(SheepEatAI::class.java,bind="{name}Impl").createPathfinderGoal(sheep,canUse,setBlock) as PathfinderGoal,5)
     }
+
+
+    fun isFood(item:Any):Boolean {
+
+        val var0=(item as ItemStack)
+        return var0.`is`(Items.DIAMOND)
+    }
+
     fun getEntityInsentient(entity: LivingEntity): Any {
         return (entity as CraftEntity).handle
     }
