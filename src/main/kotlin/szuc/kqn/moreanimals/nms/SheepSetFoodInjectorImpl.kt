@@ -5,7 +5,6 @@ import net.bytebuddy.agent.ByteBuddyAgent
 import net.bytebuddy.dynamic.loading.ClassReloadingStrategy
 import net.bytebuddy.implementation.MethodDelegation
 import net.bytebuddy.matcher.ElementMatchers
-import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.world.entity.animal.EntityAnimal
 import net.minecraft.world.entity.animal.EntitySheep
 import net.minecraft.world.item.ItemStack
@@ -27,15 +26,13 @@ class SheepSetFoodInjectorImpl : SheepSetFoodInjector {
             try {
                 ByteBuddyAgent.install()
                 val b = ByteBuddy()
-                b.redefine(EntitySheep::class.java).method(ElementMatchers.named("isFood")).intercept(
-                    MethodDelegation.to(
-                        MethodWrapper::class.java
-                    )
+                b.redefine(EntitySheep::class.java).method(ElementMatchers.named("isFood")).intercept(MethodDelegation.to(
+                    szuc.kqn.moreanimals.nms.MethodDelegation::class.java)
                 ).make().load(EntitySheep::class.java.classLoader, ClassReloadingStrategy.fromInstalledAgent())
-                b.redefine(MethodWrapper::class.java).make().load(
+                b.redefine(szuc.kqn.moreanimals.nms.MethodDelegation::class.java).make().load(
                     EntitySheep::class.java.classLoader, ClassReloadingStrategy.fromInstalledAgent()
                 )
-                val mw = Class.forName("szuc.kqn.moreanimals.nms.MethodWrapper", true, EntitySheep::class.java.classLoader)
+                val mw = Class.forName("szuc.kqn.moreanimals.nms.MethodDelegation", true, EntitySheep::class.java.classLoader)
                 mw.getField("isFood0")[null] = BiFunction { t:Any, u:Any ->isFood(t,u)}
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -51,12 +48,7 @@ class SheepSetFoodInjectorImpl : SheepSetFoodInjector {
         bukkititem.amount=1
         val itemHash=bukkititem.toString().hashCode()//转换成Bukkit ItemStack再取哈希
         val nbtData=sheep.tags.firstOrNull() { it.startsWith("moreanimals:isFood=") }?.removePrefix("moreanimals:isFood=")?.toIntOrNull()
-//        for (allKey in nbt.allKeys) {
-//            println(allKey+"  "+nbt.get(allKey))
-//        }
-
-      //  println(CraftItemStack.asBukkitCopy(item))
-             println("${nbtData}sss${itemHash}")
+             //println("${nbtData}sss${itemHash}")
 
         if(nbtData==null||nbtData==0){
             return item.`is`(Items.WHEAT)

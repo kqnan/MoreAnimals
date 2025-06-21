@@ -1,4 +1,4 @@
-package szuc.kqn.moreanimals.nms
+package szuc.kqn.moreanimals.nms.AI
 
 import net.minecraft.world.entity.EntityInsentient
 import net.minecraft.world.entity.ai.goal.PathfinderGoal
@@ -6,8 +6,6 @@ import net.minecraft.world.entity.animal.EntitySheep
 import net.minecraft.world.level.World
 import net.minecraft.world.level.block.Block
 import net.minecraft.world.level.block.Blocks
-import net.minecraft.world.level.gameevent.GameEvent
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
 import org.bukkit.craftbukkit.v1_20_R3.block.data.CraftBlockData
@@ -21,7 +19,7 @@ import java.util.function.Function
 import kotlin.math.max
 import kotlin.random.Random
 
-class SheepEatAIImpl:PathfinderGoal,SheepEatAI {
+class SheepEatAIImpl:PathfinderGoal, SheepEatAI {
 
     val EAT_ANIMATION_TICKS: Int = 40
     private var canUse: Function<Location, Boolean>? = null
@@ -91,7 +89,7 @@ class SheepEatAIImpl:PathfinderGoal,SheepEatAI {
         if (this.eatAnimationTick == this.adjustedTickDelay(4)) {
                 val var0 = mob!!.blockPosition()
                 val var1 = var0.below()
-                if (level!!.getBlockState(var1).`is`(Blocks.DIAMOND_ORE)) {
+                if (canUse().apply { sheep!!.groundBlock.location }) {
                        // level.levelEvent(2001, var1, Block.getId(Blocks.DIAMOND_ORE.defaultBlockState()))//方块粒子
                         level!!.levelEvent(2001,var1,Block.getId(((sheep!!.groundBlock.blockData as CraftBlockData).state)))
                         this.setBlock!!.apply(sheep!!.groundBlock.location)

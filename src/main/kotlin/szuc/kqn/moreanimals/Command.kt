@@ -20,7 +20,7 @@ import taboolib.platform.util.giveItem
 object Command {
 
     @CommandBody
-    val test= subCommand {
+    val woolGrowFrequency= subCommand {
         execute<CommandSender> {
                 sender, context, argument ->
             // 获取参数的值
@@ -28,7 +28,6 @@ object Command {
                 val p= sender
                 for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
                     if(nearbyEntity is Sheep){
-
                         (nearbyEntity as Sheep).woolGrowFrequency(2)
                     }
                 }
@@ -44,12 +43,15 @@ object Command {
                 val p= sender
                 for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
                     if(nearbyEntity is Sheep){
+                        val main=sender.inventory.itemInMainHand.clone()
+                        val off=sender.inventory.itemInOffHand.clone()
                         (nearbyEntity as Sheep).eatBlock(
                             canEat = { loc->
-                                loc.block.type==Material.DIAMOND_ORE
-
+                                loc.block.type==main.type
                             },
-                            setBlock ={ loc->loc.block.setType(Material.ACACIA_WOOD)
+                            setBlock ={
+                                loc->
+                                loc.block.type = off.type
                                 loc.block.blockData
                             },
                         )
@@ -89,6 +91,25 @@ object Command {
                     if(nearbyEntity is Sheep){
 
                         p.inventory.itemInMainHand.let { nearbyEntity.setFood(it) }
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val setTemptItem=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Sheep){
+
+                        p.inventory.itemInMainHand.let { nearbyEntity.setTemptItem(item = it
+                        ) }
                     }
                 }
 

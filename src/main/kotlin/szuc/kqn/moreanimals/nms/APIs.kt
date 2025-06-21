@@ -3,7 +3,9 @@ package szuc.kqn.moreanimals.nms
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Sheep
+import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
+import szuc.kqn.moreanimals.nms.AI.SheepAIInjector
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.info
@@ -29,9 +31,17 @@ fun Sheep.woolGrowFrequency(freq:Int){
     this.persistentDataContainer.set(NamespacedKey(bukkitPlugin,"woolGrowFrequency"), PersistentDataType.INTEGER,freq)//需要吃
     this.persistentDataContainer.set(NamespacedKey(bukkitPlugin,"eatenTimes"), PersistentDataType.INTEGER,0)//已吃次数
 }
-
+/**
+ * 玩家手中拿着特定物品可以右键点击羊进行喂食
+ * */
 fun Sheep.setFood(item:org.bukkit.inventory.ItemStack){
     SheepSetFoodInjector.INSTANCE.writeFoodToNBT(this,item)
+}
+/**
+ * 玩家手中拿着特定物品可以吸引羊跟随
+ * */
+fun Sheep.setTemptItem(item:ItemStack){
+    SheepAIInjector.INSTANCE.temptItem(this,item)
 }
 
 /**

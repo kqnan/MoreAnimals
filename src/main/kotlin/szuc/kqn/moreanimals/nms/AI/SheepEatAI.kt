@@ -1,7 +1,6 @@
-package szuc.kqn.moreanimals.nms
+package szuc.kqn.moreanimals.nms.AI
 
 import org.bukkit.Location
-import org.bukkit.block.data.BlockData
 import org.bukkit.entity.Sheep
 import java.util.function.Function
 
