@@ -1,4 +1,4 @@
-package szuc.kqn.moreanimals.nms
+package szuc.kqn.moreanimals.nms.sheep
 
 import net.bytebuddy.ByteBuddy
 import net.bytebuddy.agent.ByteBuddyAgent
@@ -41,6 +41,7 @@ class SheepSetFoodInjectorImpl : SheepSetFoodInjector {
         }
     }
 
+
     override fun isFood(sheep:Any,item: Any?): Boolean {
         if (item == null) return false
         if(!((sheep is EntityAnimal )&& (item is ItemStack)))return false
@@ -48,7 +49,7 @@ class SheepSetFoodInjectorImpl : SheepSetFoodInjector {
         bukkititem.amount=1
         val itemHash=bukkititem.toString().hashCode()//转换成Bukkit ItemStack再取哈希
         val nbtData=sheep.tags.firstOrNull() { it.startsWith("moreanimals:isFood=") }?.removePrefix("moreanimals:isFood=")?.toIntOrNull()
-             //println("${nbtData}sss${itemHash}")
+
 
         if(nbtData==null||nbtData==0){
             return item.`is`(Items.WHEAT)
@@ -60,8 +61,7 @@ class SheepSetFoodInjectorImpl : SheepSetFoodInjector {
         var item=item.clone()
         item.amount=1
         item=CraftItemStack.asBukkitCopy(CraftItemStack.asNMSCopy(item))
-        //println("bukkit")
-        //println(item)
+
         (sheep as CraftSheep).handle.tags.removeIf { it.startsWith("moreanimals:isFood=") }
         (sheep).handle.addTag("moreanimals:isFood="+item.toString().hashCode())
     }

@@ -1,11 +1,10 @@
-package szuc.kqn.moreanimals.nms.AI
+package szuc.kqn.moreanimals.nms.sheep
 
 import net.minecraft.world.entity.EntityInsentient
 import net.minecraft.world.entity.ai.goal.PathfinderGoal
 import net.minecraft.world.entity.animal.EntitySheep
 import net.minecraft.world.level.World
 import net.minecraft.world.level.block.Block
-import net.minecraft.world.level.block.Blocks
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
 import org.bukkit.craftbukkit.v1_20_R3.block.data.CraftBlockData
@@ -44,6 +43,7 @@ class SheepEatAIImpl:PathfinderGoal, SheepEatAI {
 
     val rand=Random
     override fun canUse(): Boolean {
+        // TODO: 别删注释
 //        if (rand.nextInt(if(sheep!!.isAdult)1000 else 50 )!=0) {
 //            return false
 //        } else {

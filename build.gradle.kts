@@ -25,7 +25,13 @@ plugins {
     id("io.izzel.taboolib") version "2.0.22"
     id("org.jetbrains.kotlin.jvm") version "1.8.22"
 }
-
+java{
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+    toolchain{
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
 taboolib {
     env {
         install(Basic)
@@ -63,9 +69,11 @@ repositories {
         name = "CodeMC"
         url = uri("https://repo.codemc.io/repository/maven-public/")
     }
+    maven { url= uri("https://jitpack.io") }
 }
 
 dependencies {
+    implementation("com.google.firebase:protolite-well-known-types:18.0.1")
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
     compileOnly(kotlin("stdlib"))
@@ -76,7 +84,14 @@ dependencies {
     implementation("net.bytebuddy:byte-buddy:1.17.5")
     // https://mvnrepository.com/artifact/net.bytebuddy/byte-buddy-agent
     implementation("net.bytebuddy:byte-buddy-agent:1.17.5")
-    compileOnly("de.tr7zw:item-nbt-api-plugin:2.15.0")
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation("com.google.code.gson:gson:2.13.1")
+    implementation("de.tr7zw:item-nbt-api-plugin:2.15.0")
+    // https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
+    // https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
+    // https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine
+    // https://mvnrepository.com/artifact/org.ehcache/ehcache
+  //  implementation("com.github.kqnan:GlobalMemory:4.0")
 }
 
 tasks.withType<JavaCompile> {

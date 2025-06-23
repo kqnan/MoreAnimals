@@ -2,10 +2,12 @@ package szuc.kqn.moreanimals.nms
 
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
+import org.bukkit.entity.Chicken
 import org.bukkit.entity.Sheep
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
-import szuc.kqn.moreanimals.nms.AI.SheepAIInjector
+import szuc.kqn.moreanimals.nms.chicken.ChickenInjector
+import szuc.kqn.moreanimals.nms.sheep.SheepSetFoodInjector
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 import taboolib.common.platform.function.info
@@ -19,7 +21,7 @@ import java.util.function.Function
  * setBlock:羊脚下方块被吃后用什么方块替换
  * */
 fun Sheep.eatBlock(canEat: Function<Location, Boolean>, setBlock: Function<Location, Unit>){
-    SheepAIInjector.INSTANCE.eatBlock(this,canEat,setBlock)
+    AIInjector.INSTANCE.SheepeatBlock(this,canEat,setBlock)
 }
 /**
  * 原版的羊吃一次方块就会长毛，这个函数修改了这个次数。使用可持久化容器存储
@@ -41,7 +43,24 @@ fun Sheep.setFood(item:org.bukkit.inventory.ItemStack){
  * 玩家手中拿着特定物品可以吸引羊跟随
  * */
 fun Sheep.setTemptItem(item:ItemStack){
-    SheepAIInjector.INSTANCE.temptItem(this,item)
+    AIInjector.INSTANCE.SheepTemptItem(this,item)
+}
+/**设置鸡生出的物品，可持久化
+ * */
+fun  Chicken.setProduction(item: ItemStack){
+    ChickenInjector.INSTANCE.writeTemptFoodToNBT(this,item)
+}
+/**设置鸡被生物吸引，不可持久化
+ * */
+fun Chicken.setTemptItem(item:ItemStack){
+    AIInjector.INSTANCE.ChickenTemptItem(this,item)
+}
+/**
+ * 右键点击鸡进行喂食
+ * */
+fun Chicken.setFood(item:org.bukkit.inventory.ItemStack){
+    ChickenInjector.INSTANCE.writeFoodToNBT(this,item)
+   // ChickenSetFoodInjector.INSTANCE.writeFoodToNBT(this,item)
 }
 
 /**
@@ -52,4 +71,14 @@ fun Sheep.setTemptItem(item:ItemStack){
 fun  injectSheep(){
     info("自动注入EntitySheep#isFood")
     SheepSetFoodInjector.INSTANCE.inject()
+}
+/**
+ *
+ *  修改nms鸡的aiStep方法，每次重启要重新注入。整个服务端运行周期内调用一次即可。
+ */
+@Awake(LifeCycle.ENABLE)
+fun  injectChicken(){
+    info("自动注入EntityChicken#aiStep")
+    info("自动注入EntityChicken#isFood")
+    ChickenInjector.INSTANCE.inject()
 }

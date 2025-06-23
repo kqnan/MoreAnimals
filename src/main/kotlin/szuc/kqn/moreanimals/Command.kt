@@ -2,8 +2,11 @@ package szuc.kqn.moreanimals
 
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Chicken
 import org.bukkit.entity.Player
 import org.bukkit.entity.Sheep
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import szuc.kqn.moreanimals.nms.*
 
@@ -20,7 +23,7 @@ import taboolib.platform.util.giveItem
 object Command {
 
     @CommandBody
-    val woolGrowFrequency= subCommand {
+    val SheepwoolGrowFrequency= subCommand {
         execute<CommandSender> {
                 sender, context, argument ->
             // 获取参数的值
@@ -35,7 +38,7 @@ object Command {
         }
     }
     @CommandBody
-    val test2=subCommand {
+    val SheepeatBlock=subCommand {
         execute<CommandSender> {
                 sender, context, argument ->
             // 获取参数的值
@@ -62,7 +65,7 @@ object Command {
         }
     }
     @CommandBody
-    val injectSetFood=subCommand {
+    val SheepinjectSetFood=subCommand {
         execute<CommandSender> {
                 sender, context, argument ->
             // 获取参数的值
@@ -80,7 +83,7 @@ object Command {
     }
 
     @CommandBody
-    val setFood=subCommand {
+    val SheepsetFood=subCommand {
         execute<CommandSender> {
                 sender, context, argument ->
             // 获取参数的值
@@ -98,7 +101,7 @@ object Command {
         }
     }
     @CommandBody
-    val setTemptItem=subCommand {
+    val SheepsetTemptItem=subCommand {
         execute<CommandSender> {
                 sender, context, argument ->
             // 获取参数的值
@@ -113,6 +116,78 @@ object Command {
                     }
                 }
 
+            }
+        }
+    }
+    @CommandBody
+    val chickenSetProduct=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Chicken){
+
+                        p.inventory.itemInMainHand.let { nearbyEntity.setProduction(item = it
+                        )
+
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val chickenTemptItem=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Chicken){
+                        nearbyEntity.setTemptItem(p.inventory.itemInMainHand)
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val chickenSetFood=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Chicken){
+                        nearbyEntity.setFood(p.inventory.itemInMainHand)
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val testItem=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+                val item=buildItem(Material.COOKED_BEEF){
+                    name="炎神战斧"
+                    lore.addAll(arrayOf("熔岩核心锻造的神器","右键点燃敌人"))
+                    flags.addAll(arrayOf(ItemFlag.HIDE_ENCHANTS,ItemFlag.HIDE_UNBREAKABLE))
+                    enchants.put(Enchantment.SILK_TOUCH,1)
+                }
+                p.giveItem(item)
             }
         }
     }

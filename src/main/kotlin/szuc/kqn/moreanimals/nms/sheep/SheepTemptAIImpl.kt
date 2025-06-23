@@ -1,13 +1,10 @@
-package szuc.kqn.moreanimals.nms.AI
+package szuc.kqn.moreanimals.nms.sheep
 
 import net.minecraft.world.entity.EntityCreature
-import net.minecraft.world.entity.EntityLiving
 import net.minecraft.world.entity.ai.goal.PathfinderGoal
-import net.minecraft.world.entity.ai.targeting.PathfinderTargetCondition
 import net.minecraft.world.entity.player.EntityHuman
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftSheep
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack
 import org.bukkit.entity.Player
 import org.bukkit.entity.Sheep
 import org.bukkit.inventory.ItemStack
@@ -38,6 +35,7 @@ class SheepTemptAIImpl: PathfinderGoal, SheepTemptAI {
         this.canScare = canScare
         this.flags = EnumSet.of(Type.MOVE, Type.LOOK)
         this.sheep=sheep
+
 
     }
     constructor() :super(){

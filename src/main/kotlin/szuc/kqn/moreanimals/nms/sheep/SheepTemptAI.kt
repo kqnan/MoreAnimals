@@ -1,4 +1,4 @@
-package szuc.kqn.moreanimals.nms.AI
+package szuc.kqn.moreanimals.nms.sheep
 
 import org.bukkit.entity.Sheep
 import org.bukkit.inventory.ItemStack

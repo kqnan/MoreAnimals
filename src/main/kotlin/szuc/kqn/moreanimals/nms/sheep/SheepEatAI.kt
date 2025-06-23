@@ -1,4 +1,4 @@
-package szuc.kqn.moreanimals.nms.AI
+package szuc.kqn.moreanimals.nms.sheep
 
 import org.bukkit.Location
 import org.bukkit.entity.Sheep
