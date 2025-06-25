@@ -3,9 +3,7 @@ package szuc.kqn.moreanimals
 import org.bukkit.Material
 import org.bukkit.command.CommandSender
 import org.bukkit.enchantments.Enchantment
-import org.bukkit.entity.Chicken
-import org.bukkit.entity.Player
-import org.bukkit.entity.Sheep
+import org.bukkit.entity.*
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import szuc.kqn.moreanimals.nms.*
@@ -18,6 +16,7 @@ import taboolib.module.nms.itemTagReader
 import taboolib.platform.util.ItemBuilder
 import taboolib.platform.util.buildItem
 import taboolib.platform.util.giveItem
+import java.util.UUID
 
 @CommandHeader("moreanimals", ["ma"],permission = "moreanimals.commands")
 object Command {
@@ -168,6 +167,90 @@ object Command {
                 for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
                     if(nearbyEntity is Chicken){
                         nearbyEntity.setFood(p.inventory.itemInMainHand)
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val cowSetProduction=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Cow){
+                        nearbyEntity.setProduction(p.inventory.itemInMainHand)
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val cowSetTemptFood=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Cow){
+                        nearbyEntity.setTemptItem(p.inventory.itemInMainHand)
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val cowSetFood=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Cow){
+                        nearbyEntity.setFood(p.inventory.itemInMainHand)
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val catSetFood=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Cat){
+                        nearbyEntity.setFood(p.inventory.itemInMainHand)
+                    }
+                }
+
+            }
+        }
+    }
+    @CommandBody
+    val catAdditionalGift=subCommand {
+        execute<CommandSender> {
+                sender, context, argument ->
+            // 获取参数的值
+            if(sender is Player){
+                val p= sender
+                for (nearbyEntity in p.getNearbyEntities(3.0, 3.0, 3.0)) {
+                    if(nearbyEntity is Cat){
+                        nearbyEntity.addAdditionalGift(UUID.randomUUID().toString(),p.inventory.itemInMainHand,100)
                     }
                 }
 

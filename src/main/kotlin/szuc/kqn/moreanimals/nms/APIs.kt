@@ -2,11 +2,15 @@ package szuc.kqn.moreanimals.nms
 
 import org.bukkit.Location
 import org.bukkit.NamespacedKey
+import org.bukkit.entity.Cat
 import org.bukkit.entity.Chicken
+import org.bukkit.entity.Cow
 import org.bukkit.entity.Sheep
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
+import szuc.kqn.moreanimals.nms.cat.CatInjector
 import szuc.kqn.moreanimals.nms.chicken.ChickenInjector
+import szuc.kqn.moreanimals.nms.cow.CowInjector
 import szuc.kqn.moreanimals.nms.sheep.SheepSetFoodInjector
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
@@ -56,13 +60,44 @@ fun Chicken.setTemptItem(item:ItemStack){
     AIInjector.INSTANCE.ChickenTemptItem(this,item)
 }
 /**
- * 右键点击鸡进行喂食
+ * 右键点击鸡进行喂食，可持久化
  * */
 fun Chicken.setFood(item:org.bukkit.inventory.ItemStack){
     ChickenInjector.INSTANCE.writeFoodToNBT(this,item)
    // ChickenSetFoodInjector.INSTANCE.writeFoodToNBT(this,item)
 }
-
+/**
+ * 手持空桶右键点击牛获得的物品，可持久化
+ * */
+fun Cow.setProduction(item:org.bukkit.inventory.ItemStack){
+    CowInjector.INSTANCE.writeProductionToNBT(this,item)
+    // ChickenSetFoodInjector.INSTANCE.writeFoodToNBT(this,item)
+}
+/**设置鸡被生物吸引，不可持久化
+ * */
+fun Cow.setTemptItem(item:ItemStack){
+    AIInjector.INSTANCE.CowTemptItem(this,item)
+}
+/**
+ * 右键点击牛进行喂食，可持久化
+ * */
+fun Cow.setFood(item:org.bukkit.inventory.ItemStack){
+    CowInjector.INSTANCE.writeFoodToNBT(this,item)
+    // ChickenSetFoodInjector.INSTANCE.writeFoodToNBT(this,item)
+}
+/**
+ * 右键点击猫进行喂食，不可持久化
+ * */
+fun Cat.setFood(item:org.bukkit.inventory.ItemStack){
+    CatInjector.INSTANCE.writeFoodToNBT(this,item)
+    // ChickenSetFoodInjector.INSTANCE.writeFoodToNBT(this,item)
+}
+/**
+ * 设置猫的礼物，不可持久化
+ * */
+fun Cat.addAdditionalGift(key:String,item:org.bukkit.inventory.ItemStack,prob:Int){
+    CatInjector.INSTANCE.addAdditionalGift(this,key, item, prob)
+}
 /**
  *
  *  修改nms羊的isFood方法，每次重启要重新注入。整个服务端运行周期内调用一次即可。
@@ -81,4 +116,24 @@ fun  injectChicken(){
     info("自动注入EntityChicken#aiStep")
     info("自动注入EntityChicken#isFood")
     ChickenInjector.INSTANCE.inject()
+}
+/**
+ *
+ *  注入nms牛，每次重启要重新注入。整个服务端运行周期内调用一次即可。
+ */
+@Awake(LifeCycle.ENABLE)
+fun injectCow(){
+    info("自动注入EntityCow#mobinteract")
+    info("自动注入EntityCow#isFood")
+    CowInjector.INSTANCE.inject()
+}
+/**
+ *
+ *  注入nms猫，每次重启要重新注入。整个服务端运行周期内调用一次即可。
+ */
+@Awake(LifeCycle.ENABLE)
+fun injectCat(){
+   // info("自动注入EntityCat#mobinteract")
+
+    CatInjector.INSTANCE.inject()
 }

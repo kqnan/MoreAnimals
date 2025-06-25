@@ -2,6 +2,7 @@ package szuc.kqn.moreanimals.nms
 
 import org.bukkit.Location
 import org.bukkit.entity.Chicken
+import org.bukkit.entity.Cow
 import org.bukkit.entity.Sheep
 import org.bukkit.inventory.ItemStack
 import taboolib.common.util.unsafeLazy
@@ -15,6 +16,7 @@ interface AIInjector {
     fun SheepTemptItem(sheep:Sheep, item:ItemStack)
 
     fun ChickenTemptItem(chicken: Chicken,item: ItemStack)
+    fun CowTemptItem(cow:Cow,item: ItemStack)
     companion object {
         val INSTANCE by unsafeLazy {
             nmsProxy<AIInjector>()

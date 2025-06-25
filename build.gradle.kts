@@ -76,6 +76,7 @@ dependencies {
     implementation("com.google.firebase:protolite-well-known-types:18.0.1")
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
+
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
     // https://mvnrepository.com/artifact/org.ow2.asm/asm

@@ -48,10 +48,6 @@ class ChickenInjectorImpl : ChickenInjector {
                 ).method(named("isFood")).
                 intercept(MethodDelegation.to(ChickenMethodDelegationIsFood::class.java)).make().load(EntityChicken::class.java.classLoader, ClassReloadingStrategy.fromInstalledAgent())
 
-               // b.redefine(EntityChicken::class.java).visit(Advice.to(ChickenMethodDelegation::class.java).on(named("aiStep"))).
-               // visit(Advice.to(ChickenMethodDelegationIsFood::class.java).on(named("isFood"))).make().load(EntityChicken::class.java.classLoader, ClassReloadingStrategy.fromInstalledAgent())
-
-
                 b.redefine(szuc.kqn.moreanimals.nms.ChickenMethodDelegation::class.java).make().load(
                     EntityChicken::class.java.classLoader, ClassReloadingStrategy.fromInstalledAgent()
                 )

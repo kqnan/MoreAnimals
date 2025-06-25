@@ -7,9 +7,11 @@ import net.minecraft.world.item.Items
 import org.bukkit.Location
 import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity
 import org.bukkit.entity.Chicken
+import org.bukkit.entity.Cow
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Sheep
 import szuc.kqn.moreanimals.nms.chicken.ChickenTemptAI
+import szuc.kqn.moreanimals.nms.cow.CowTemptAI
 import szuc.kqn.moreanimals.nms.sheep.SheepEatAI
 import szuc.kqn.moreanimals.nms.sheep.SheepTemptAI
 import taboolib.library.reflex.Reflex.Companion.getProperty
@@ -38,6 +40,13 @@ class AIInjectorImpl : AIInjector {
 
     }
 
+    override fun CowTemptItem(cow: Cow, item: org.bukkit.inventory.ItemStack) {
+        removeGoalAi(cow,"Tempt")
+        removeGoalAi(cow,"CowTemptAIImpl")
+        addGoalAi(cow,nmsProxy(CowTemptAI::class.java,bind="{name}Impl").createPathfinderGoal(cow,item) as PathfinderGoal,3)
+
+    }
+
     fun isFood(item:Any):Boolean {
         val var0=(item as ItemStack)
         return var0.`is`(Items.DIAMOND)
@@ -51,7 +60,7 @@ class AIInjectorImpl : AIInjector {
         (getEntityInsentient(entity) as EntityInsentient).goalSelector.addGoal(priority, ai)
     }
 
-     fun removeGoalAi(entity: LivingEntity, name: String) {
+    fun removeGoalAi(entity: LivingEntity, name: String) {
         removeGoal(name, (getEntityInsentient(entity) as EntityInsentient).goalSelector)
     }
     private fun removeGoal(name: String, targetSelector: Any) {

@@ -7,7 +7,7 @@ import taboolib.module.nms.nmsProxy
 interface ChickenInjector {
     fun inject()
     fun setProduct(chick:Chicken,item: ItemStack)
-    fun writeTemptFoodToNBT(sheep: Chicken, item: org.bukkit.inventory.ItemStack)
+    fun writeTemptFoodToNBT(chicken: Chicken, item: org.bukkit.inventory.ItemStack)
     fun isFood(chicken:Any,item: Any?):Boolean
     fun writeFoodToNBT(chicken:Chicken, item: ItemStack)
     companion object {

@@ -29,6 +29,7 @@ class SheepSetFoodInjectorImpl : SheepSetFoodInjector {
                 b.redefine(EntitySheep::class.java).method(ElementMatchers.named("isFood")).intercept(MethodDelegation.to(
                     szuc.kqn.moreanimals.nms.MethodDelegation::class.java)
                 ).make().load(EntitySheep::class.java.classLoader, ClassReloadingStrategy.fromInstalledAgent())
+
                 b.redefine(szuc.kqn.moreanimals.nms.MethodDelegation::class.java).make().load(
                     EntitySheep::class.java.classLoader, ClassReloadingStrategy.fromInstalledAgent()
                 )
@@ -49,8 +50,6 @@ class SheepSetFoodInjectorImpl : SheepSetFoodInjector {
         bukkititem.amount=1
         val itemHash=bukkititem.toString().hashCode()//转换成Bukkit ItemStack再取哈希
         val nbtData=sheep.tags.firstOrNull() { it.startsWith("moreanimals:isFood=") }?.removePrefix("moreanimals:isFood=")?.toIntOrNull()
-
-
         if(nbtData==null||nbtData==0){
             return item.`is`(Items.WHEAT)
         }
